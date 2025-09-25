@@ -37,4 +37,12 @@ print(data)
 soup=BeautifulSoup(data,'html.parser')
 datos2=pd.read_html(str(soup))
 tesla_revenue=datos2[0]
+tesla_revenue.columns = ["Year", "Revenue"]
+tesla_revenue["Revenue"] = tesla_revenue["Revenue"].str.replace(r'[,\$]', '', regex=True)
+tesla_revenue["Revenue"] = tesla_revenue["Revenue"].astype(float)
+tesla_revenue.dropna(inplace=True)
 tesla_revenue.tail(5)
+gme=yf.Ticker("GME")
+gme_data=gme.history(period="max")
+gme_data.reset_index(inplace=True)
+gme_data.head(5)
